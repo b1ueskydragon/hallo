@@ -44,31 +44,31 @@ public class SearchTarget {
     File [] fileList = dir.listFiles();
 
     if(fileList != null) {
-//      for (File file : fileList) {
-//        // ターゲットファイル発見
-//        if (isTargetFile(file)) {
-//          targetList.add(file);
-//        }
-//        // ディレクトリ発見
-//        else if (file.isDirectory()) {
-//          searchDir(file.getCanonicalPath());
-//        }
-//      }
+      for (File file : fileList) {
+        // ターゲットファイル発見
+        if (isTargetFile(file)) {
+          targetList.add(file);
+        }
+        // ディレクトリ発見
+        else if (file.isDirectory()) {
+          searchDir(file.getCanonicalPath());
+        }
+      }
 
-      Arrays.stream(fileList)
-          .filter(SearchTarget::isTargetFile)
-          .forEach(targetList::add);
+//      Arrays.stream(fileList)
+//          .filter(SearchTarget::isTargetFile)
+//          .forEach(targetList::add);
     }
   }
 
 
-  public static void main(String [] args) {
-    SearchTarget searchTarget = new SearchTarget();
-    try {
-      searchTarget.searchDir("/Users/Inhwa_rg1/Desktop/securityTest");
-      searchTarget.targetList.stream().map(file -> file.getName()).forEach(System.out::println);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+//  public static void main(String [] args) {
+//    SearchTarget searchTarget = new SearchTarget();
+//    try {
+//      searchTarget.searchDir("");
+//      searchTarget.targetList.stream().map(file -> file.getName()).forEach(System.out::println);
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
 }
