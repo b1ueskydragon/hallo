@@ -1,5 +1,7 @@
 package cipher;
 
+import finder.GetTestPath;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -14,14 +16,12 @@ import java.util.List;
 
 public class Cryption {
 
-  // TODO fileEncrypt を実行するかどうか判断する flag 設置
-
   /**
    * 共通鍵暗号化方式::AES でファイルを暗号化する
    *
-   * @param input      ファイル
-   * @param commonKey  共通キーになる秘密キー (128 bit key)
-   * @param output     暗号化されて排出されるファイル
+   * @param input     ファイル
+   * @param commonKey 共通キーになる秘密キー (128 bit key)
+   * @param output    暗号化されて排出されるファイル
    */
   public void fileEncrypt(int cryptMode, String commonKey, File input, File output) {
     IvParameterSpec iv;
@@ -45,8 +45,10 @@ public class Cryption {
       outputStream.write(outputBytes);
 
     } catch (NoSuchAlgorithmException
-        | NoSuchPaddingException | BadPaddingException
-        | InvalidKeyException | IllegalBlockSizeException
+        | NoSuchPaddingException
+        | BadPaddingException
+        | InvalidKeyException
+        | IllegalBlockSizeException
         | IOException e) {
       e.printStackTrace();
 
@@ -63,11 +65,30 @@ public class Cryption {
   /**
    * ファイルリストを暗号化し、拡張子を変換する
    *
-   * @param files     複数のファイル
+   * @param files 複数のファイル
    */
   public void exeEncrypt(List<File> files) {
+
     files.forEach(file -> fileEncrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY,
-            file, new File(file.getPath() + ".hallo")));
+        file, new File(file.getPath() + ".hallo")));
+
     System.out.println("[log] 暗号化完了");
+
+    // 暗号化が終わったら、フラグファイルを追加する
+    FileOutputStream output = null;
+    try {
+      output = new FileOutputStream(GetTestPath.TEST_PATH + "www.dat");
+
+      System.out.println("[log] フラグ追加完了");
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (output != null) output.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@ import javax.swing.*;
 public class Execute extends Application {
 
   public static void main(String... halloween) {
-    new JFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // TODO 不要ならら消す
+    new JFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     launch(halloween);
   }
 
