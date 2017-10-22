@@ -13,9 +13,9 @@ public class SearchTarget {
   // ターゲットの経路
   private String path;
   // ターゲットになるファイルのリスト
-  private static List<File> targetList = new ArrayList<>();
+  private List<File> targetList = new ArrayList<>();
   // ターゲットにしたい拡張子のリスト
-  private static List<String> targetExtensionList = Arrays.asList(
+  private List<String> targetExtensionList = Arrays.asList(
       ".mp3",
       ".txt",
       ".java",
@@ -23,52 +23,67 @@ public class SearchTarget {
       ".jpeg",
       ".png",
       ".pdf",
-      ".docx"
+      ".docx",
+      ".py"
   );
 
   public String getPath() {
     return path;
   }
+
   public void setPath(String path) {
     this.path = path;
   }
 
-  private static boolean isTargetFile(File file) {
+  private boolean isTargetFile(File file) {
     return !file.isDirectory() && targetExtensionList.contains(FileUtillity.getExtension(file));
   }
 
-  private void searchDir(String path) throws IOException {
+  private void searchDir(String path) {
     // path のディレクトリ
     File dir = new File(path);
     // 上記 dir 内のファイルリスト
-    File [] fileList = dir.listFiles();
+    File[] fileList = dir.listFiles();
 
-    if(fileList != null) {
-      for (File file : fileList) {
-        // ターゲットファイル発見
-        if (isTargetFile(file)) {
-          targetList.add(file);
-        }
-        // ディレクトリ発見
-        else if (file.isDirectory()) {
-          searchDir(file.getCanonicalPath());
-        }
-      }
+    if (fileList == null) return;
 
-//      Arrays.stream(fileList)
-//          .filter(SearchTarget::isTargetFile)
-//          .forEach(targetList::add);
-    }
-  }
-
-
-//  public static void main(String [] args) {
-//    SearchTarget searchTarget = new SearchTarget();
 //    try {
-//      searchTarget.searchDir("");
-//      searchTarget.targetList.stream().map(file -> file.getName()).forEach(System.out::println);
+//      for (File file : fileList) {
+//        // ターゲットファイル発見
+//        if (isTargetFile(file)) {
+//          targetList.add(file);
+//        }
+//        // ディレクトリ発見
+//        else if (file.isDirectory()) {
+//          searchDir(file.getCanonicalPath());
+//        }
+//      }
 //    } catch (IOException e) {
 //      e.printStackTrace();
 //    }
-//  }
+
+
+    Arrays.stream(fileList)
+        .filter(this::isTargetFile)
+        .forEach(targetList::add);
+
+    Arrays.stream(fileList)
+        .filter(File::isDirectory)
+        .forEach(file -> {
+          try {
+            searchDir(file.getCanonicalPath());
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        });
+  }
+
+
+  public static void main(String[] args) {
+    SearchTarget searchTarget = new SearchTarget();
+    searchTarget.searchDir(GetTestPath.TEST_PATH);
+
+    searchTarget.targetList
+        .forEach(file -> System.out.println(file.getName()));
+  }
 }
