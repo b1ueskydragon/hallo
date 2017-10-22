@@ -95,20 +95,21 @@ public class Cryption {
   /**
    * ファイルリストを復号化し、フラグファイルを削除する
    *
-   * @param files       複数のファイル
-   * @param rootDirPath ターゲットになる最上位ディレクトリ
+   * @param halloedFiles 暗号化された複数のファイル
+   * @param rootDirPath  ターゲットになる最上位ディレクトリ
    */
-  public void exeDecrypt(List<File> files, String rootDirPath) {
+  public void exeDecrypt(List<File> halloedFiles, String rootDirPath) {
 
-    for (File hallo : files) {
-      File origin = new File(hallo.getPath().split(".hallo")[0]);
-      fileCrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY, hallo, origin);
-    }
+    halloedFiles.forEach(hallo -> fileCrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY,
+        hallo, new File(hallo.getPath().split(".hallo")[0])));
+
     System.out.println("[log] 復号化完了");
 
     // 復号化が終わったら、フラグファイルを削除する
     new File(rootDirPath + "www.dat").delete();
 
     System.out.println("[log] フラグ削除完了");
+
+    // TODO !!!! 復号後元どおりにならない !!!!
   }
 }
