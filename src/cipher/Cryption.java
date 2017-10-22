@@ -19,11 +19,11 @@ public class Cryption {
   /**
    * 共通鍵暗号化方式::AES でファイルを暗号化する
    *
-   * @param input     ファイル
-   * @param commonKey 共通キーになる秘密キー (128 bit key)
-   * @param output    暗号化されて排出されるファイル
+   * @param fileInput  ファイル
+   * @param commonKey  共通キーになる秘密キー (128 bit key)
+   * @param fileOutput 暗号化されて排出されるファイル
    */
-  public void fileEncrypt(int cryptMode, String commonKey, File input, File output) {
+  public void fileEncrypt(int cryptMode, String commonKey, File fileInput, File fileOutput) {
     IvParameterSpec iv;
     Key skeySpec;
     Cipher cipher;
@@ -38,11 +38,15 @@ public class Cryption {
       cipher.init(cryptMode, skeySpec); // ここに 16byte の initVector 追加したかった
 
       // File IO
-      inputStream = new FileInputStream(input);
-      byte[] inputBytes = new byte[(int) input.length()];
+      inputStream = new FileInputStream(fileInput);
+      byte[] inputBytes = new byte[(int) fileInput.length()];
+
       byte[] outputBytes = cipher.doFinal(inputBytes);
-      outputStream = new FileOutputStream(output);
+      outputStream = new FileOutputStream(fileOutput);
       outputStream.write(outputBytes);
+
+      // 暗号化が終わったら、元のファイルを削除する
+      fileInput.delete();
 
     } catch (NoSuchAlgorithmException
         | NoSuchPaddingException
