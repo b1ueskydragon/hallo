@@ -10,8 +10,6 @@ import java.util.List;
 
 public class SearchTarget {
 
-  // ターゲットの経路
-  private String path;
   // ターゲットになるファイルのリスト
   private List<File> targetList = new ArrayList<>();
   // ターゲットにしたい拡張子のリスト
@@ -27,46 +25,26 @@ public class SearchTarget {
       ".py"
   );
 
-  public String getPath() {
-    return path;
-  }
+  // TODO path getter & setter
 
-  public void setPath(String path) {
-    this.path = path;
+  public SearchTarget() {
+    searchDir(GetTestPath.TEST_PATH);
   }
-
-  private boolean isTargetFile(File file) {
-    return !file.isDirectory() && targetExtensionList.contains(FileUtillity.getExtension(file));
+  public List<File> getTargetList() {
+    return targetList;
   }
 
   private void searchDir(String path) {
-    // path のディレクトリ
-    File dir = new File(path);
-    // 上記 dir 内のファイルリスト
-    File[] fileList = dir.listFiles();
-
+    // path 指定 dir 内のファイルリスト
+    File[] fileList = new File(path).listFiles();
     if (fileList == null) return;
 
-//    try {
-//      for (File file : fileList) {
-//        // ターゲットファイル発見
-//        if (isTargetFile(file)) {
-//          targetList.add(file);
-//        }
-//        // ディレクトリ発見
-//        else if (file.isDirectory()) {
-//          searchDir(file.getCanonicalPath());
-//        }
-//      }
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-
-
+    // ターゲットのファイルをターゲットリストに追加
     Arrays.stream(fileList)
         .filter(this::isTargetFile)
         .forEach(targetList::add);
 
+    // ディレクトリの場合、再帰検索でターゲットリストに追加
     Arrays.stream(fileList)
         .filter(File::isDirectory)
         .forEach(file -> {
@@ -78,12 +56,7 @@ public class SearchTarget {
         });
   }
 
-
-  public static void main(String[] args) {
-    SearchTarget searchTarget = new SearchTarget();
-    searchTarget.searchDir(GetTestPath.TEST_PATH);
-
-    searchTarget.targetList
-        .forEach(file -> System.out.println(file.getName()));
+  private boolean isTargetFile(File file) {
+    return !file.isDirectory() && targetExtensionList.contains(FileUtillity.getExtension(file));
   }
 }
