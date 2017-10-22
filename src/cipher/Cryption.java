@@ -1,7 +1,5 @@
 package cipher;
 
-import finder.GetTestPath;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -22,7 +20,7 @@ public class Cryption {
    * @param commonKey  共通キーになる秘密キー (128 bit key)
    * @param fileOutput 暗号化されて排出されるファイル
    */
-  private void fileEncrypt(int cryptMode, String commonKey, File fileInput, File fileOutput) {
+  private void fileCrypt(int cryptMode, String commonKey, File fileInput, File fileOutput) {
     Key skeySpec;
     Cipher cipher;
 
@@ -43,7 +41,7 @@ public class Cryption {
       outputStream = new FileOutputStream(fileOutput);
       outputStream.write(outputBytes);
 
-      // 暗号化が終わったら、元のファイルを削除する
+      // 暗号化 || 復号化が終わったら、元のファイルを削除する
       fileInput.delete();
 
     } catch (NoSuchAlgorithmException
@@ -66,11 +64,12 @@ public class Cryption {
   /**
    * ファイルリストを暗号化し、拡張子を変換する
    *
-   * @param files 複数のファイル
+   * @param files       複数のファイル
+   * @param rootDirPath ターゲットになる最上位ディレクトリ
    */
-  public void exeEncrypt(List<File> files) {
+  public void exeEncrypt(List<File> files, String rootDirPath) {
 
-    files.forEach(file -> fileEncrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY,
+    files.forEach(file -> fileCrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY,
         file, new File(file.getPath() + ".hallo")));
 
     System.out.println("[log] 暗号化完了");
@@ -78,7 +77,7 @@ public class Cryption {
     // 暗号化が終わったら、フラグファイルを追加する
     FileOutputStream output = null;
     try {
-      output = new FileOutputStream(GetTestPath.TEST_PATH + "www.dat");
+      output = new FileOutputStream(rootDirPath + "www.dat");
 
       System.out.println("[log] フラグ追加完了");
 
@@ -91,5 +90,25 @@ public class Cryption {
         e.printStackTrace();
       }
     }
+  }
+
+  /**
+   * ファイルリストを復号化し、フラグファイルを削除する
+   *
+   * @param files       複数のファイル
+   * @param rootDirPath ターゲットになる最上位ディレクトリ
+   */
+  public void exeDecrypt(List<File> files, String rootDirPath) {
+
+    for (File hallo : files) {
+      File origin = new File(hallo.getPath().split(".hallo")[0]);
+      fileCrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY, hallo, origin);
+    }
+    System.out.println("[log] 復号化完了");
+
+    // 復号化が終わったら、フラグファイルを削除する
+    new File(rootDirPath + "www.dat").delete();
+
+    System.out.println("[log] フラグ削除完了");
   }
 }

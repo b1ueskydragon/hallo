@@ -1,6 +1,7 @@
 package main;
 
 import cipher.Cryption;
+import finder.GetTestPath;
 import finder.SearchTarget;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -21,6 +22,8 @@ public class Execute extends Application {
         .forEach(file -> System.out.println(file.getName()));
 
     Cryption cryption = new Cryption();
-    cryption.exeEncrypt(searchTarget.getTargetList());
+    cryption.exeEncrypt(searchTarget.getTargetList(), GetTestPath.TEST_PATH);
+
+   // cryption.exeDecrypt(searchTarget.getTargetList(), GetTestPath.TEST_PATH);
   }
 }

@@ -22,7 +22,8 @@ public class SearchTarget {
       ".png",
       ".pdf",
       ".docx",
-      ".py"
+      ".py",
+      ".hallo" // TODO 暫定:: 復号化の際に詮索対象になるように追加
   );
 
   // TODO path getter & setter
