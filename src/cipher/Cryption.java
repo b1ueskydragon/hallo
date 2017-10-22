@@ -6,7 +6,6 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.InvalidKeyException;
@@ -23,8 +22,7 @@ public class Cryption {
    * @param commonKey  共通キーになる秘密キー (128 bit key)
    * @param fileOutput 暗号化されて排出されるファイル
    */
-  public void fileEncrypt(int cryptMode, String commonKey, File fileInput, File fileOutput) {
-    IvParameterSpec iv;
+  private void fileEncrypt(int cryptMode, String commonKey, File fileInput, File fileOutput) {
     Key skeySpec;
     Cipher cipher;
 
@@ -55,7 +53,6 @@ public class Cryption {
         | IllegalBlockSizeException
         | IOException e) {
       e.printStackTrace();
-
     } finally {
       try {
         if (inputStream != null) inputStream.close();
