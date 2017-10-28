@@ -1,3 +1,10 @@
+# InteliJ
 .idea
 out/
+
+# 個人情報
 src/finder/GetTestPath.java
+src/tools/MailSendProperties.java
+
+# .properties
+rersource/*.properties

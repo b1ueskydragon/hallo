@@ -1,27 +1,26 @@
-package _test_;
+package tools;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-public class _mail_ {
+public class MailSendUtility {
 
   public static void main(String[] args) {
-   send("JavaMail テストメール", "テストメールの本文");
+    send("JavaMail テストメール", "テストメールの本文");
   }
 
   private static void send(String subject, String content) {
 
-    final String to = "xxx.yyy.zzz@example.com";
-    final String from = "*****.*****.*****@gmail.com";
+    final String to = MailSendProperties.TO;
+    final String from = MailSendProperties.FROM;
 
     // Google account mail address
-    final String username = "*****.*****.*****@gmail.com";
+    final String username = MailSendProperties.USER_NAME;
     // Google App password
-    final String password = "***************";
+    final String password = MailSendProperties.PASSWORD;
 
     //final String charset = "ISO-2022-JP";
     final String charset = "UTF-8";
@@ -60,7 +59,7 @@ public class _mail_ {
       MimeMessage message = new MimeMessage(session);
 
       // Set From:
-      message.setFrom(new InternetAddress(from, "Watanabe Shin"));
+      message.setFrom(new InternetAddress(from, MailSendProperties.PERSONAL));
       // Set ReplyTo:
       message.setReplyTo(new Address[]{new InternetAddress(from)});
       // Set To:
@@ -73,9 +72,7 @@ public class _mail_ {
 
       Transport.send(message);
 
-    } catch (MessagingException e) {
-      throw new RuntimeException(e);
-    } catch (UnsupportedEncodingException e) {
+    } catch (MessagingException | UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }

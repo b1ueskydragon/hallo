@@ -1,0 +1,7 @@
+mail.user=
+mail.host=
+mail.from=
+mail.mime.address.strict=true
+mail.store.protocol=imap
+mail.transport.protocol=smtp
+mail.debug=false                # debug出力
