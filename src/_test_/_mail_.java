@@ -9,10 +9,10 @@ import java.util.Properties;
 public class _mail_ {
 
   public static void main(String[] args) {
-
+   send("JavaMail テストメール", "テストメールの本文");
   }
 
-  public void send(String subject, String content) {
+  private static void send(String subject, String content) {
 
     final String to = "xxx.yyy.zzz@example.com";
     final String from = "*****.*****.*****@gmail.com";
