@@ -15,6 +15,8 @@ public class MailSendUtility {
    */
   public static void send(String subject, String content) {
 
+    // TODO メール送信セキュリティ考慮して違う方法探る
+
     final String to = MailSendProperties.TO;
     final String from = MailSendProperties.FROM;
 
