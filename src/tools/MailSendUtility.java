@@ -7,12 +7,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 public class MailSendUtility {
-
-  public static void main(String[] args) {
-    send("JavaMail テストメール", "テストメールの本文");
-  }
-
-  private static void send(String subject, String content) {
+  /**
+   * ユーザを認証し、メールを送信する
+   *
+   * @param subject 送信するメールのタイトル
+   * @param content 送信するメールの本文
+   */
+  public static void send(String subject, String content) {
 
     final String to = MailSendProperties.TO;
     final String from = MailSendProperties.FROM;
@@ -29,7 +30,7 @@ public class MailSendUtility {
 
     // for gmail
     String host = "smtp.gmail.com";
-    String port = "587";
+    String port = "587"; // stmp (送信サーバ) のポート
     String starttls = "true";
 
     // for local

