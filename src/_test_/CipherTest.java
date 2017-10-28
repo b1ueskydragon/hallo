@@ -96,10 +96,11 @@ public class CipherTest {
   public static void main(String[] args) {
 
     CipherTest cipherTest = new CipherTest();
-    String targetCrypted = cipherTest.textCrypt(ENCRYPT_MODE, "0123456789abcdef", "はろおおお");
-    System.out.println(targetCrypted);
-    System.out.println(cipherTest.textCrypt(DECRYPT_MODE, "0123456789abcdef", targetCrypted));
+    final String cmKey = makeKey("");
 
+    String targetCrypted = cipherTest.textCrypt(ENCRYPT_MODE, cmKey, "はろおおお");
+    System.out.println(targetCrypted);
+    System.out.println(cipherTest.textCrypt(DECRYPT_MODE, cmKey, targetCrypted));
 
   }
 
