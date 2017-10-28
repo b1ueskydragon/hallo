@@ -1,10 +1,11 @@
 package main;
 
 import cipher.Cryption;
-import finder.GetTestPath;
+import cipher.CryptionKeys;
 import finder.SearchTarget;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import tools.InputUtility;
 
 import javax.swing.*;
 
@@ -21,11 +22,13 @@ public class Execute extends Application {
     searchTarget.getTargetList()
         .forEach(file -> System.out.println(file.getName()));
 
+    String dirPath = searchTarget.getPath();
+
     Cryption cryption = new Cryption();
-    if (searchTarget.hasEncryptFlag()) {
-      cryption.exeDecrypt(searchTarget.getTargetList(), GetTestPath.TEST_PATH);
+    if (cryption.hasEncryptFlag(dirPath)) {
+      cryption.exeDecrypt(searchTarget.getTargetList(), dirPath, InputUtility.textInput());
     } else {
-      cryption.exeEncrypt(searchTarget.getTargetList(), GetTestPath.TEST_PATH);
+      cryption.exeEncrypt(searchTarget.getTargetList(), dirPath , CryptionKeys.COMMON_KEY);
     }
   }
 }
