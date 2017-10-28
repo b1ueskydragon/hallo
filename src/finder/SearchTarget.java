@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static cipher.CryptionKeys.A_FLAG_FILE;
+
 public class SearchTarget {
 
+  private String path;
   // ターゲットになるファイルのリスト
   private List<File> targetList = new ArrayList<>();
   // ターゲットにしたい拡張子のリスト
@@ -30,7 +33,9 @@ public class SearchTarget {
 
   public SearchTarget() {
     searchDir(GetTestPath.TEST_PATH);
+    this.path = GetTestPath.TEST_PATH;
   }
+
   public List<File> getTargetList() {
     return targetList;
   }
@@ -59,5 +64,11 @@ public class SearchTarget {
 
   private boolean isTargetFile(File file) {
     return !file.isDirectory() && targetExtensionList.contains(FileUtillity.getExtension(file));
+  }
+
+  public boolean hasEncryptFlag() {
+    File targetDir = new File(this.path);
+    return Arrays.stream(targetDir.listFiles())
+        .anyMatch(file -> file.getName().equals(A_FLAG_FILE));
   }
 }
