@@ -12,12 +12,11 @@ public class MailSendUtility {
    *
    * @param subject 送信するメールのタイトル
    * @param content 送信するメールの本文
+   * @param toUser  受信者のメールアドレス { MailSendProperties.TO }
    */
-  public static void send(String subject, String content) {
+  public static void send(String subject, String content, String toUser) {
 
-    // TODO メール送信セキュリティ考慮して違う方法探る
-
-    final String to = MailSendProperties.TO;
+    final String to = toUser;
     final String from = MailSendProperties.FROM;
 
     // Google account mail address
