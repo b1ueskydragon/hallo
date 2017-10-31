@@ -32,7 +32,7 @@ public class Crypted {
     } else {
       alert = new Alert(Alert.AlertType.ERROR);
       alert.setTitle("Failed");
-      alert.setHeaderText("だめだめ");
+      alert.setHeaderText("_:(´ཀ`」 ∠):");
       alert.showAndWait();
     }
   }
