@@ -6,5 +6,8 @@ out/
 src/finder/GetTestPath.java
 src/tools/MailSendProperties.java
 
+# jar 生成時
+src/META-INF/
+
 # .properties
 rersource/*.properties
