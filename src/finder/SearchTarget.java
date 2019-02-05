@@ -43,26 +43,24 @@ public class SearchTarget {
       ".hallo" // TODO 暫定 - 復号化の際に詮索対象になるように追加
   );
 
+  /**
+   * Add target (file) in targetList.
+   * if target is directory, search recursively down until reach to files.
+   *
+   * @param path path of target
+   */
   private void searchDir(String path) {
-    // path 指定 dir 内のファイルリスト
-    File[] fileList = new File(path).listFiles();
-    if (fileList == null) return;
+    try {
+      File[] fileList = new File(path).listFiles();
+      if (fileList == null) return;
 
-    // ターゲットのファイルをターゲットリストに追加
-    Arrays.stream(fileList)
-        .filter(this::isTargetFile)
-        .forEach(targetList::add);
-
-    // ディレクトリの場合、再帰検索でターゲットリストに追加
-    Arrays.stream(fileList)
-        .filter(File::isDirectory)
-        .forEach(file -> {
-          try {
-            searchDir(file.getCanonicalPath());
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+      for (File file : fileList) {
+        if (isTargetFile(file)) targetList.add(file);
+        else searchDir(file.getCanonicalPath());
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   private boolean isTargetFile(File file) {
