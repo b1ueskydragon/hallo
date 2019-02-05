@@ -1,4 +1,4 @@
-package _test_;
+package testPrivate;
 
 import org.apache.commons.codec.binary.StringUtils;
 

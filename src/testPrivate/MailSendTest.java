@@ -1,4 +1,4 @@
-package _test_;
+package testPrivate;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -7,7 +7,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-public class _mail_ {
+public class MailSendTest {
 
   public static void main(String[] args) {
    send("JavaMail テストメール", "テストメールの本文");
